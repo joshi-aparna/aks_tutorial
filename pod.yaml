@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: akstutorial-pod
+  labels:
+    app: akstutorial
+    component: akstutorial-app
+spec:
+  containers:
+  - name: akstutorial
+    image: aparnacr007.azurecr.io/aks_tutorial:v1
+    resources:
+      limits:
+        memory: "128Mi"
+        cpu: "500m"
+    ports:
+      - containerPort: 5000

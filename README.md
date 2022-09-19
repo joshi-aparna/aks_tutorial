@@ -9,7 +9,7 @@ To run the code:
 The port number is printed on your console in step 3.
 
 I used the `Docker` plugin to containerize the application
-![Docker extension screenshot](./docker_add_screenshot.jpg)
+![Docker extension screenshot](./images/docker_add_screenshot.jpg)
 
 To test that things work fine in the containerized application, I created an image and ran it locally
 
@@ -21,3 +21,12 @@ To test that things work fine in the containerized application, I created an ima
 
 
 You now have a running dotnet core web-api that we will try to run on aks next.
+
+### Push image to a container registry
+Now that you have built a docker container image, you should make it available in a container registry that can be accessed by the Kubernetes cluster you will deploy on Azure. 
+
+
+### Kubernetes resources
+We add the deployment file required to run the application on Kubernetes. Ensure that you have the `Kubernetes` VS Code extension. This provides auto-complete feature that is very useful.
+
+[!kubernetes_extension.mov](./images/kubernetes_extension.mov)

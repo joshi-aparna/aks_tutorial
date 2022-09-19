@@ -9,7 +9,7 @@ To run the code:
 The port number is printed on your console in step 3.
 
 I used the `Docker` plugin to containerize the application
-[!Docker extension screenshot](./docker_add_screenshot.jpg)
+![Docker extension screenshot](./docker_add_screenshot.jpg)
 
 To test that things work fine in the containerized application, I created an image and ran it locally
 

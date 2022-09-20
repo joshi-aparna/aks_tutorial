@@ -27,7 +27,7 @@ Now that you have built a docker container image, you should make it available i
 
 Use [this Microsoft document](https://learn.microsoft.com/en-us/azure/container-registry/container-registry-get-started-azure-cli) to create a private container registry.
 
-1. az group create --name "aparna-ravindra-aks" --location westus
+1. az group create --name "aparna-ravindra-aks" --location eastus2
 2. az acr create --resource-group "aparna-ravindra-aks" --name aparnacr007 --sku Basic  [Note the loginserver: `aparnacr007.azurecr.io`]
 3. az acr login --name aparnacr007
 4. docker tag aks_tutorial:v1 aparnacr007.azurecr.io/aks_tutorial:v1
@@ -38,18 +38,25 @@ You should now be able to see the repository created in the Container Registry i
 ### Kubernetes resources
 We add the deployment file required to run the application on Kubernetes. Ensure that you have the `Kubernetes` VS Code extension. This provides auto-complete feature that is very useful.
 
-![kubernetes_extension.mov](./images/kubernetes_extension.mov)
+![](./images/kubernetes_extension.mov)
 
 In the `image` field, enter the image pushed to the container registry in the previous step.
 
 Test your setup by creating a AKS cluster manually by following the [Microsoft doc here](https://code.visualstudio.com/docs/azure/kubernetes#_create-and-config-a-kubernetes-cluster).
 
-1. az aks create -n aks_tutorial -g aparna-ravindra-aks --enable-managed-identity --node-count 1
+1. az aks create -n aks_tutorial -g aparna-ravindra-aks --enable-managed-identity --node-count 1  [This takes a few minutes]
 2. az aks install-cli
 3. az aks get-credentials -g aparna-ravindra-aks -n aks_tutorial
+4. az aks show -g aparna-ravindra-aks -n aks_tutorial --query "identityProfile.kubeletidentity.clientId" --output tsv [Capture the clientid here]
+5. az acr show --resource-group aparna-ravindra-aks --name aparnacr007 --query id --output tsv [Capture the ACR ID here]
+6. az role assignment create --assignee 5abc8283-3601-4761-a30f-23fd9dd90450 --role acrpull --scope /subscriptions/c00d16c7-6c1f-4c03-9be1-6934a4c49682/resourceGroups/aparna-ravindra-aks/providers/Microsoft.ContainerRegistry/registries/aparnacr007
 
 Deploy the pod and service
-kubectl apply -f pod.yaml
+
+1. kubectl apply -f pod.yaml
+2. kubectl apply -f service.yaml
 
 
 You can go to azure portal and find the external IP of your service and test it.
+1. kubectl get all [Capture the external ip of the service]
+2. https://external-ip:8080/WeatherForecast
